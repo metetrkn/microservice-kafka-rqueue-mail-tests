@@ -1,1 +1,1 @@
-report_id,topic,partion_number,consumer_number,batch_size,buffer,threads,cpu,memory,performance_monitor
+report_id,topic,partion,consumer,threads,batch,query_que_ms,connection_timeOut,read_timeout,cpu,memory,performance_monitor

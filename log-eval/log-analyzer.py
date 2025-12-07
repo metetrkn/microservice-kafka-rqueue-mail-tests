@@ -7,19 +7,19 @@ import os
 STATE_FILE = 'state.json'
 
 def get_report_id():
-    """
-    Reads the current report number, updates it for each reporting
-    """
+    if not os.path.exists(STATE_FILE):
+        with open(STATE_FILE, 'w') as f:
+            json.dump({'report_count': 0}, f)
+
     with open(STATE_FILE, 'r') as f:
         try:
             state = json.load(f)
-        except json.JSONDecodeError as e:
-            print(e.msg)
+        except json.JSONDecodeError:
+            state = {'report_count': 0}
 
-    current_count = state.get('report_count')
+    current_count = state.get('report_count', 0)
     new_count = current_count + 1
     state['report_count'] = new_count
-
 
     with open(STATE_FILE, 'w') as f:
         json.dump(state, f, indent=4)
@@ -28,17 +28,16 @@ def get_report_id():
 
 
 def analyze_logs_to_csv(input_file, output_file):
-    # Regex to capture Topic, Consumer, Created, and Sent
+    # Regex handles the "Sent to: email |" section
     log_pattern = re.compile(
         r"Topic:\s*(?P<topic>[^|]+)\s*\|\s*"
         r"Consumer:\s*(?P<consumer>[^|]+)\s*\|\s*"
+        r"Sent to:\s*[^|]+\s*\|\s*"
         r"Created:\s*(?P<created>\d+)\s*\|\s*"
         r"Sent:\s*(?P<sent>\d+)"
     )
 
-    # Key: (topic, consumer), Value: [list of execution times]
     stats = defaultdict(list)
-
     report_id = get_report_id()
 
     try:
@@ -52,8 +51,8 @@ def analyze_logs_to_csv(input_file, output_file):
                     created_ts = int(match.group('created'))
                     sent_ts = int(match.group('sent'))
 
-                    exec_time = sent_ts - created_ts
-                    stats[(topic, consumer)].append(exec_time)
+                    exec_time_ms = sent_ts - created_ts
+                    stats[(topic, consumer)].append(exec_time_ms)
 
         # 2. Write to CSV
         file_exists = os.path.isfile(output_file) and os.path.getsize(output_file) > 0
@@ -61,16 +60,22 @@ def analyze_logs_to_csv(input_file, output_file):
         with open(output_file, 'a', newline='', encoding='utf-8') as csvfile:
             writer = csv.writer(csvfile)
 
-            # Only write header if the file didn't exist or was empty
             if not file_exists:
-                writer.writerow(['report_id', 'topic', 'consumer', 'total_mails', 'average_execution_time_(ms)', 'max_execution_time_(ms)'])
+                writer.writerow(['report_id', 'topic', 'consumer', 'total_mails', 'average_execution_time_(s)', 'max_execution_time_(s)'])
 
-            for (topic, consumer), times in stats.items():
-                total_count = len(times)
-                avg_time = sum(times) / total_count
-                max_time = max(times)
+            for (topic, consumer), times_ms in stats.items():
+                total_count = len(times_ms)
                 
-                writer.writerow([report_id, topic, consumer, total_count, f"{avg_time:.2f}", max_time])
+                # Math
+                avg_time_ms = sum(times_ms) / total_count
+                max_time_ms = max(times_ms)
+
+                # Convert to Seconds
+                avg_time_s = avg_time_ms / 1000.0
+                max_time_s = max_time_ms / 1000.0
+                
+                # --- CHANGED PART: Force 2 decimal places (automatically rounds 2.008 -> 2.01) ---
+                writer.writerow([report_id, topic, consumer, total_count, f"{avg_time_s:.2f}", f"{max_time_s:.2f}"])
 
         print(f"Success! Report updated: {output_file}")
 
@@ -81,4 +86,4 @@ def analyze_logs_to_csv(input_file, output_file):
 # --- Usage ---
 if __name__ == "__main__":
     analyze_logs_to_csv('C:/Users/mete/Desktop/staj/test-case/test/javaConsumer/javaConsumer/logs/email-consumer.log',
-                         'log_report.csv')
+                        'log_report.csv')
