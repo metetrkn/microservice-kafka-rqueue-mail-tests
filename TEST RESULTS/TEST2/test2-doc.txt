@@ -1,0 +1,38 @@
+Findout increasing only consumers changing performance meaningfully
+
+THIS TEST REPERATED 6 TIMES for each use scenerio
+
+PARAMETERS that is used for compare
+scenerio-1
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		4		4		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		4		4		4		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scnerio-2
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		6		4		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		4		6		4		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+UNDERSTANDING TEST
+report id: 0, 1, 2 are the result of test made with the same paremeters
+report id: 3, 4, 5 are the result of test made with new parameters
+0, 1, 2 are the same test repeated, 3, 4, 5 are the new tests with new paremeter repeated 
+
+As it seen from report image as much as test repeated with the same paremeters (0,1,2 block or 3,4,5 block) performance increases,
+It should be result of cashing or a similar system, ignore this,
+
+COMPARE 0,1,2 with 3,4,5
+
+EVAULATION OF TEST
+This test made to findout if increasing only consumers affect performance
+RESULT: I have doubled threads for each topic(4 to 8), there is performance increase drasatically
+1. High Priority Mails (high-priority-mails)
+Average Execution Time: Drastically improved by 46.04% (Dropped from 2.22s to 1.20s).
+Max Execution Time: Drastically improved by 46.43% (Dropped from 3.54s to 1.89s).
+
+2. Low Priority Mails (low-priority-mails)
+Average Execution Time: Improved by 14.89% (Dropped from 2.59s to 2.20s).
+Max Execution Time: Improved by 9.10% (Dropped from 4.11s to 3.74s).
+
