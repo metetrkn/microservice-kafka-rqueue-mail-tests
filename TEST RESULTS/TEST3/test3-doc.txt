@@ -1,0 +1,47 @@
+Findout if increasing only partitons changes performance meaningfully
+
+THIS TEST REPERATED 6 TIMES for each use scenerio
+
+PARAMETERS that is used for compare
+scenerio-1
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		4		4		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		4		4		4		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scnerio-2
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		8		4		4		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		8		4		4		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+UNDERSTANDING TEST
+report id: 0, 1, 2 are the result of test made with the same paremeters
+report id: 3, 4, 5 are the result of test made with new parameters
+0, 1, 2 are the same test repeated, 3, 4, 5 are the new tests with new paremeter repeated 
+
+AAs it seen from report image as much as test repeated with the same paremeters (0,1,2 block or 3,4,5 block) performance increases,
+It should be result of cashing or a similar system, ignore this,
+
+COMPARE 0,1,2 with 3,4,5
+
+EVAULATION OF TEST
+This test made to findout if increasing only partions numbers for each consumer affect performance
+RESULT: I have doubled partions for each topic(4 to 8),
+
+there is performance decrease
+
+1. High Priority Mails (high-priority-mails)
+Average Execution Time: Increased by 38.70% (Rose from 1.71s to 2.37s).
+Max Execution Time: Increased by 35.93% (Rose from 2.74s to 3.73s).
+
+2. Low Priority Mails (low-priority-mails)
+Average Execution Time: Increased by 15.40% (Rose from 2.27s to 2.62s).
+Max Execution Time: Increased by 15.29% (Rose from 3.56s to 4.11s).
+
+RESULT:
+Increasing partions by it self DECREASE the performance drastically
+Each consumer (in their own topic group) shared similar workload as it should be 
+
+
+   
