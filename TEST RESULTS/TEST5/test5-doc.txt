@@ -1,0 +1,45 @@
+Findout if increasing consumers and threads at the same time changes performance meaningfully
+
+THIS TEST REPERATED 6 TIMES for each use scenerio
+
+PARAMETERS that is used for compare
+scenerio-1
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		4		4		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		4		4		4		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scnerio-2
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		8		8		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		4		8		8		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+UNDERSTANDING TEST
+report id: 0, 1, 2 are the result of test made with the same paremeters
+report id: 3, 4, 5 are the result of test made with new parameters
+0, 1, 2 are the same test repeated, 3, 4, 5 are the new tests with new paremeter repeated 
+
+As it seen from report image as much as test repeated with the same paremeters (0,1,2 block or 3,4,5 block) performance increases,
+It should be result of cashing or a similar system, ignore this,
+
+COMPARE 0,1,2 with 3,4,5
+
+EVAULATION OF TEST
+This test made to findout if increasing consumer and threads numbers for each consumer affect performance
+RESULT: I have doubled  consumers and threads (4 to 8),
+
+1. High Priority Mails (high-priority-mails)
+Average Execution Time: Improved by 15.11% (Dropped from 2.69s to 2.28s).
+Max Execution Time: Improved by 11.88% (Dropped from 4.03s to 3.55s).
+
+2. Low Priority Mails (low-priority-mails)
+Average Execution Time: Improved by 4.58% (Dropped from 2.97s to 2.83s).
+Max Execution Time: Improved by 3.03% (Dropped from 4.49s to 4.35s).
+
+RESULT:
+Increasing threads and consumers at the same time increased performance just a little bit
+Each consumer (in their own topic group) shared similar workload as it should be 
+
+
+   

@@ -1,0 +1,63 @@
+Findout if not batching for high topics changes performance meaningfully
+
+THIS TEST REPERATED 6 TIMES in total, 2 times for each use scenerio
+
+PARAMETERS that is used for compare
+scenerio-1
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		4		4		1		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		4		4		4		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scnerio-2
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		4		4		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		4		4		4		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scnerio-2
+(1 Broker) 	
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		4		4		10		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		4		4		4		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+UNDERSTANDING TEST
+report id: 0, 1, 2 are the result of test made with the same paremeters
+report id: 3, 4, 5 are the result of test made with new parameters
+0, 1, 2 are the same test repeated, 3, 4, 5 are the new tests with new paremeter repeated 
+
+As it seen from report image as much as test repeated with the same paremeters (0,1,2 block or 3,4,5 block) performance increases,
+It should be result of cashing or a similar system, ignore this,
+
+COMPARE 0,1, with 1,2 with 4,5
+
+EVAULATION OF TEST
+This test made to if not batching for high topics changes performance meaningfully
+I have set high topic batching from 1 -> 5 -> 10
+
+0,1 vs 2,3 (1 batch vs 5 batch)
+1. High Priority Mails (high-priority-mails)
+Average Execution Time: Improved by 61.94% (Dropped from 4.71 s to 1.79 s)
+Max Execution Time: Improved by 50.18%  (Dropped from 6.44 s to 3.21 s).
+
+2. Low Priority Mails (low-priority-mails)
+Average Execution Time: Improved by 6.53% (Dropped from 2.61 s to 2.44 s).
+Max Execution Time: Improved by 6.85% (Dropped from 4.23 s to 3.94 s).
+
+2,3 vs 4,5 (5 batch vs 10 batch)
+1. High Priority Mails (high-priority-mails)
+Average Execution Time: Dropped by 11.71% (Increased from 1.79 s s to 2.00 s)
+Max Execution Time: Dropped by 1.52%  (Increased from 3.21 s to 3.26 s).
+
+2. Low Priority Mails (low-priority-mails)
+Average Execution Time: Dropped by 40.61% (Dropped from 2.44 s to 3.42 s).
+Max Execution Time: Dropped by +37.88% (Dropped from 3.94 s to 5.44 s).
+
+
+RESULT:
+Not setting batch (bath size=1) is the worst. But setting so much batch is the bad as well.(10 batch). 
+Best perfomance was with 5 batch. Solution is setting batch not so much.
+Each consumer (in their own topic group) shared similar workload as it should be 
+
+
+   

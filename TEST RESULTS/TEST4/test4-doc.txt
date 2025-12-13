@@ -1,0 +1,48 @@
+Findout if increasing partitons, consumers, threads at the same time changes performance meaningfully
+
+THIS TEST REPERATED 6 TIMES for each use scenerio
+
+PARAMETERS that is used for compare
+scenerio-1
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		4		4		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		4		4		4		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scnerio-2
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		8		8		8		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		8		8		8		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+UNDERSTANDING TEST
+report id: 0, 1, 2 are the result of test made with the same paremeters
+report id: 3, 4, 5 are the result of test made with new parameters
+0, 1, 2 are the same test repeated, 3, 4, 5 are the new tests with new paremeter repeated 
+
+As it seen from report image as much as test repeated with the same paremeters (0,1,2 block or 3,4,5 block) performance increases,
+It should be result of cashing or a similar system, ignore this,
+
+COMPARE 0,1,2 with 3,4,5
+
+EVAULATION OF TEST
+This test made to findout if increasing only partions numbers for each consumer affect performance
+RESULT: I have doubled partions, consumers and threads (4 to 8),
+Even though I have allocated double resources, overall performance did not change allmost at all
+
+1. High Priority Mails (high-priority-mails)
+Average Execution Time: Slightly improved by 1.83% (Dropped from 2.30s to 2.25s).
+Max Execution Time: Improved by 7.00% (Dropped from 3.73s to 3.47s).
+
+2. Low Priority Mails (low-priority-mails)
+Average Execution Time: Slightly degraded by 1.12% (Rose from 2.68s to 2.71s).
+Max Execution Time: Improved by 6.49% (Dropped from 4.26s to 3.98s).
+
+RESULT:
+Increasing partions, threads and consumers at the same time did not change the performance allmost at all.
+In prevoius reports, increasing threads or consumers by it self increased performance hence increasing partions decreased performance
+Doing all together did not change performance. It can be the reason of consumers and threads increased affect good but partions bad and overall result notr
+Each consumer (in their own topic group) shared similar workload as it should be 
+
+
+   
