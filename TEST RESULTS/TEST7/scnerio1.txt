@@ -1,0 +1,105 @@
+Findout best paremeters based on all other previous test regarding partions, consumers, threads and batch
+
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ALL STARS SO FAR
+BEST SCNERIO- ALSO CHECKED IN STRESS TEST WITH 121000 TEST 
+scenerio-BEST RESULT: {HIGH}: max: 1.89, avg:0.62, {LOW}: max: 9.17, avg:2.47
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		6		6		6		50		5			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		1		1		1		200		10000			10 sec			10 sec			1			10	45	 10-20
+
+
+scenerio-BEST RESULT: {HIGH}: max: 2.06, avg:1.29, {LOW}: max: 5.49, avg:3.78 
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		4		4		50		5			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		1		1		1		200		10000			10 sec			10 sec			1			10	45	 10-20
+
+
+scenerio-BEST RESULT: {HIGH}: max: 2.11, avg:1.30, {LOW}: max: 6.95, avg: 4.19
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		6		6		6		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		1		1		1		50		1000			10 sec			10 sec			1			10	45	 10-20
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+PARAMETERS that is used for compare
+scenerio-1 RESULT: {HIGH}: max: 2.79, avg:1.70, {LOW}: max: 5.52, avg: 3.31
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		4		4		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		2		2		2		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scenerio-2 RESULT: {HIGH}: max: 3.33, avg:2.05, {LOW}: max: 10.78, avg: 5.61
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		6		4		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		2		2		2		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scenerio-3 RESULT: {HIGH}: max: 3.78, avg:1.97, {LOW}: max: 6.25, avg: 3.29
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		6		6		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		2		2		2		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scenerio-4 RESULT: {HIGH}: max: 3.07, avg:1.71, {LOW}: max: 6.13, avg: 3.28
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		6		6		6		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		2		2		2		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scenerio-5 RESULT: {HIGH}: max: 3.76, avg:2.14, {LOW}: max: 5.75, avg: 3.21
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		3		3		3		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		2		2		2		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scenerio-6 RESULT: {HIGH}: max: 1.44, avg:2.41, {LOW}: max: 3.80, avg: 6.30
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		4		4		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		1		1		1		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scenerio-7 RESULT: {HIGH}: max: 2.11, avg:1.30, {LOW}: max: 6.95, avg: 4.19
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		4		4		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		1		1		1		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scenerio-8 RESULT: {HIGH}: max: 2.55, avg:1.63, {LOW}: max: 6.78, avg: 4.05
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		6		6		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		1		1		1		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scenerio-9 RESULT: {HIGH}: max: 2.71, avg:1.64, {LOW}: max: 7.03, avg: 4.17
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		6		4		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		1		1		1		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scenerio-10 RESULT: {HIGH}: max: 2.60, avg:1.52, {LOW}: max: 7.30, avg: 4.24
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		6		4		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		1		1		1		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scenerio-11 RESULT: {HIGH}: max: 4.80, avg:2.74, {LOW}: max: 13.38, avg: 7.98
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		4		8		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		1		1		1		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scenerio-12 RESULT: TERIBLE, DONT EVEN CONSIDER
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		4		8		8		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		1		1		1		50		1000			10 sec			10 sec			1			10	45	 10-20
+
+scenerio-13 RESULT: 
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	1000		6		6		6		5		50			10 sec			10 sec			1			10	45	 10-20
+low-pace	10000		1		1		1		100		10000			10 sec			10 sec			1			10	45	 10-20

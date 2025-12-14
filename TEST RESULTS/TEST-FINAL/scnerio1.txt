@@ -1,0 +1,27 @@
+Findout best paremeters based on all other previous test regarding partions, consumers, threads and batch
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ALL STAR SO FAR
+BEST SCNERIO- ALSO CHECKED IN STRESS TEST WITH 121000 TEST, 
+scenerio-BEST RESULT: {HIGH}: max: 1.89, avg:0.62, {LOW}: max: 9.17, avg:2.47
+(1 Broker) 									
+topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
+high-pace	11000		6		6		6		50		5			10 sec			10 sec			1			10	45	 10-20
+low-pace	110000		1		1		1		200		10000			10 sec			10 sec			1			10	45	 10-20
+
+RESULTS
+1> 1 partion = 1 consumer = 1 thread  this ration should be allways to utilize all 
+2> getting big batches at once is best, but there is limitation, total_max_batch= total_high_consumer x high_batch + total_low_consumer x low batch < 800
+3> increase query time for low topics and decrease for high topics, but do not forget, so much query frequency creates stress on system even though there is no messages in que
+4> With big batches, we open total_max_batch number of soccets (connections) from one http client that java (or whichever we chose) must handle, the same number of mails will
+send simultionely from mailgun, if we exceed their limit, we get too many request error
+5> In case we had problem in production based on:
+	System overload: CPU, RAM ETC, we can decrease high partions, consumers, threads from 6 -> 4
+	Mail gun too many request: We can decrease batch size for low topics
+
+
+WHEN 121000 TEST MAIL SEND (11 BATCH IN 11000 (EACH BATCH CONTAINS 1000 HIGH AND 10000 LOW), I CLICK ON PRODUCER 11 TIMES, EACH CREATES 11000 MAILS) 
+{HIGH}: max: 1.89, avg:0.62, {LOW}: max: 9.17, avg:2.47
+
+WHEN I CREATE 121000 MAIL AT ONCE FROM PRODUCER
+{HIGH}: max: 10.04, avg:6.43, {LOW}: max: 39.71, avg:23.80

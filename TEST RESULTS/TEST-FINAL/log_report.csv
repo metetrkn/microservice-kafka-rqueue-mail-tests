@@ -1,0 +1,8 @@
+report_id,topic,consumer,total_mails,average_execution_time_(s),max_execution_time_(s),grand_total_mails,total_errors
+24,high-priority-mails,5,1694,0.59,1.85,121000,0
+24,high-priority-mails,1,1771,0.63,1.79,121000,0
+24,low-priority-mails,0,110000,2.47,9.17,121000,0
+24,high-priority-mails,0,1969,0.64,1.84,121000,0
+24,high-priority-mails,2,1859,0.63,1.89,121000,0
+24,high-priority-mails,3,1870,0.60,1.87,121000,0
+24,high-priority-mails,4,1837,0.64,1.84,121000,0
