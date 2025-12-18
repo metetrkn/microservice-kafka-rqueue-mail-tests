@@ -1,6 +1,6 @@
 Findout if not batching for high topics changes performance meaningfully
 
-THIS TEST REPERATED 6 TIMES in total, 2 times for each use scenerio
+THIS TEST REPERATED 2 TIMES for each scenerio (TOTAL:6)
 
 PARAMETERS that is used for compare
 scenerio-1
@@ -15,21 +15,21 @@ topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTi
 high-pace	1000		4		4		4		5		50			10 sec			10 sec			1			10	45	 10-20
 low-pace	10000		4		4		4		50		1000			10 sec			10 sec			1			10	45	 10-20
 
-scnerio-2
+scnerio-3
 (1 Broker) 	
 topic		RealUsage	Partitions	Consumers	Threads		Batch		query_que_ms		connectionTimeOut	Read/RequestTimeout	Replicion Factor	cpu     memory   performance_monitor
 high-pace	1000		4		4		4		10		50			10 sec			10 sec			1			10	45	 10-20
 low-pace	10000		4		4		4		50		1000			10 sec			10 sec			1			10	45	 10-20
 
 UNDERSTANDING TEST
-report id: 0, 1, 2 are the result of test made with the same paremeters
-report id: 3, 4, 5 are the result of test made with new parameters
-0, 1, 2 are the same test repeated, 3, 4, 5 are the new tests with new paremeter repeated 
+report id: 0, 1 are the result of the 1st test made with the same paremeters
+report id: 2, 3 are the result of 2nd test made with new parameters
+report id: 4, 5 are the result of 3th test made with new parameters
 
-As it seen from report image as much as test repeated with the same paremeters (0,1,2 block or 3,4,5 block) performance increases,
-It should be result of cashing or a similar system, ignore this,
+While consumers continues to run (with the same parameters), results tends to be better.
+It should be result of cashing or a similar system, keep this in mind.
 
-COMPARE 0,1, with 1,2 with 4,5
+COMPARE report_id_0,1 group with report_id_2,3 group with report_id_4,5 group 
 
 EVAULATION OF TEST
 This test made to if not batching for high topics changes performance meaningfully

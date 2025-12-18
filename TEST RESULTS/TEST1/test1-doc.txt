@@ -1,6 +1,6 @@
 Findout if increasing only threads changes performance meaningfully
 
-THIS TEST REPERATED 6 TIMES for each use scenerio
+THIS TEST REPERATED 3 TIMES for each scenerio (TOTAL:6)
 
 PARAMETERS that is used for compare
 scenerio-1
@@ -16,14 +16,14 @@ high-pace	1000		4		4		8		5		50			10 sec			10 sec			1			10	45	 10-20
 low-pace	10000		4		4		8		50		1000			10 sec			10 sec			1			10	45	 10-20
 
 UNDERSTANDING TEST
-report id: 0, 1, 2 are the result of test made with the same paremeters
-report id: 3, 4, 5 are the result of test made with new parameters
+report id: 0, 1, 2 are the result of the 1st test made with the same paremeters
+report id: 3, 4, 5 are the result of 2nd test made with new parameters
 0, 1, 2 are the same test repeated, 3, 4, 5 are the new tests with new paremeter repeated 
 
-As it seen from report image as much as test repeated with the same paremeters (0,1,2 block or 3,4,5 block) performance increases,
-It should be result of cashing or a similar system, ignore this,
+While consumers continues to run (with the same parameters), results tends to be better.
+It should be result of cashing or a similar system, keep this in mind.
 
-COMPARE 0,1,2 with 3,4,5
+COMPARE report_id_0,1,2 group with report_id_3,4,5 group
 
 EVAULATION OF TEST
 This test made to findout if increasing only thread numbers for each consumer affect performance
