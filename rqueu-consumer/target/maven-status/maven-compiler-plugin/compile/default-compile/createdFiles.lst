@@ -1,0 +1,3 @@
+org\rqueuconsumer\consumer\EmailConsumer.class
+org\rqueuconsumer\model\EmailDTO.class
+org\rqueuconsumer\RqueuConsumerApplication.class
