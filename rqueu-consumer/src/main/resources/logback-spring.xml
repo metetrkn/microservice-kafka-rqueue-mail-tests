@@ -18,7 +18,7 @@
     <logger name="org.springframework" level="WARN"/>
     <logger name="com.github.sonus21.rqueue.core" level="WARN"/>
 
-    <logger name="org.rqueuconsumer" level="INFO"/>
+    <logger name="org.rqueue" level="INFO"/>
 
     <root level="WARN">
         <appender-ref ref="FILE"/>
