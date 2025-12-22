@@ -1,4 +1,4 @@
-package org.rqueu;
+package org.rqueue;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

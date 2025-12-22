@@ -1,4 +1,4 @@
-package org.rqueu;
+package org.rqueue;
 
 
 import org.springframework.boot.SpringApplication;
