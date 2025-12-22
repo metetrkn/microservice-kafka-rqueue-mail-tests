@@ -1,4 +1,4 @@
-package org.rqueu.dto;
+package org.rqueue.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
