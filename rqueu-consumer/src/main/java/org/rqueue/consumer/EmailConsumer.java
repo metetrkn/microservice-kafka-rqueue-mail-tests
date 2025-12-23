@@ -15,12 +15,13 @@ public class EmailConsumer {
      */
     @RqueueListener(value = "high-priority-mails", concurrency = "5-10")
     public void onHighPriorityMessage(EmailDTO email) {
-         try {
+        try {
             processEmail(email);
-            log.info("[VIP SUCCESS] Sent to {}", email.getTo());
+            // Updated log statement
+            log.info("[VIP SUCCESS] To: {} | From: {} | Subject: '{}' | Created: {}",
+                    email.getTo(), email.getFrom(), email.getSubject(), email.getCreatedAt().getTime());
         } catch (Exception e) {
-            log.error("[VIP FAILED] Could not send to {}", email.getTo(), e);
-            // Throwing an exception triggers Rqueue to RETRY automatically
+            log.error("[VIP FAILED] To: {} | Subject: '{}'", email.getTo(), email.getSubject(), e);
             throw new RuntimeException("Email service failed");
         }
     }
@@ -33,9 +34,11 @@ public class EmailConsumer {
     public void onLowPriorityMessage(EmailDTO email) {
         try {
             processEmail(email);
-            log.info("[STD SUCCESS] Sent to {}", email.getTo());
+            // Updated log statement
+            log.info("[STD SUCCESS] To: {} | From: {} | Subject: '{}' | Created: {}",
+                    email.getTo(), email.getFrom(), email.getSubject(), email.getCreatedAt().getTime());
         } catch (Exception e) {
-            log.error("[STD FAILED] Could not send to {}", email.getTo(), e);
+            log.error("[STD FAILED] To: {} | Subject: '{}'", email.getTo(), email.getSubject(), e);
             throw new RuntimeException("Email service failed");
         }
     }

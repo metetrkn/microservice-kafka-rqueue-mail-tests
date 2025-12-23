@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext; // <--- NEW IMPORT
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -71,14 +72,16 @@ public class RqueueProducerRunner implements CommandLineRunner {
     private void sendOneByOne(String queueName, int count) {
         // (Keep your existing logic here)
         String type = queueName.equals(HIGH_PRIORITY_QUEUE) ? "VIP" : "Standard";
+        Date createdAt;
 
         for (int i = 0; i < count; i++) {
+            createdAt = new Date();
             EmailDTO payload = new EmailDTO(
                     "noreply@hitract.se",
                     "user-" + i + "@" + type.toLowerCase() + ".com",
                     type + " Alert #" + i,
                     "Please process immediately.",
-                    System.currentTimeMillis()
+                    createdAt
             );
 
             rqueueEnqueuer.enqueue(queueName, payload);
