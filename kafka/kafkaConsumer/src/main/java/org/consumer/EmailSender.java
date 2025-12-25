@@ -2,7 +2,6 @@ package org.consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -17,28 +16,31 @@ import java.util.stream.Collectors;
 public class EmailSender {
 
     private static final Logger logger = LoggerFactory.getLogger(EmailSender.class);
-
-    private static final String MAILGUN_URL = "http://localhost:8080/v3/sandbox.mailgun.org/messages";
+    private static final String MAILGUN_URL = "http://localhost:8080/v1/send-email";
     private static final String API_KEY = "api:key-fake";
     private static final String FROM_EMAIL = "sender@example.com";
 
-    // REPLACES 'static Session'
     private static final HttpClient client = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
             .connectTimeout(Duration.ofSeconds(10))
             .build();
 
+    // 1. UPDATE: Add topic and consumerId to the data structure
     public static class EmailRequest {
         public String to;
         public String subject;
         public String body;
-        public long creationTime; // ADDED THIS
+        public long creationTime;
+        public String topic;      // NEW
+        public int consumerId;    // NEW
 
-        public EmailRequest(String to, String subject, String body, long creationTime) {
+        public EmailRequest(String to, String subject, String body, long creationTime, String topic, int consumerId) {
             this.to = to;
             this.subject = subject;
             this.body = body;
             this.creationTime = creationTime;
+            this.topic = topic;
+            this.consumerId = consumerId;
         }
     }
 
@@ -60,17 +62,16 @@ public class EmailSender {
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("Authorization", "Basic " + java.util.Base64.getEncoder().encodeToString(API_KEY.getBytes()))
                 .POST(HttpRequest.BodyPublishers.ofString(formData))
+                .timeout(Duration.ofSeconds(10))
                 .build();
 
         return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenAccept(response -> {
-                    // --- YOUR LOGGING IS HERE NOW ---
                     if (response.statusCode() == 200) {
                         long sentTime = System.currentTimeMillis();
-                        long totalJourney = sentTime - email.creationTime;
 
-                        logger.info("Sent to: {} | Created: {} | Sent: {} | Lag: {}ms",
-                                email.to, email.creationTime, sentTime, totalJourney);
+                        logger.info("Topic: {} | Consumer: {} | Sent to: {} | Created: {} | Sent: {}",
+                                email.topic, email.consumerId, email.to, email.creationTime, sentTime);
                     } else {
                         logger.error("Failed: {} | Status: {}", email.to, response.statusCode());
                     }

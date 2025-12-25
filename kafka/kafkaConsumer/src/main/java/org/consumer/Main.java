@@ -24,24 +24,31 @@ public class Main {
     // Consumer asks to que each 75 ms if there is new mail, repeats each 75 ms until message arrives
     // If one arrives, it sends directly, no wait time
     // If multiple arrive at the same time in high traffic, it batches up to 5 emails before sending
-    private static final int HIGH_BATCH_LIMIT = 1;
-    private static final long HIGH_WAIT_MS    = 50;
+    private static final int HIGH_BATCH_LIMIT = 50;
+    private static final long HIGH_WAIT_MS    = 5;
 
     // LOW: Efficient, bulk, patient checks
-    private static final int LOW_BATCH_LIMIT  = 1;
-    private static final long LOW_WAIT_MS     = 1000;
+    private static final int LOW_BATCH_LIMIT  = 200;
+    private static final long LOW_WAIT_MS     = 10000;
+
+    // --- CONSUMER COUNTS ---
+    private static final int HIGH_WORKERS = 6;
+    private static final int LOW_WORKERS  = 1;
+    private static final int CONSUMER_POOL  = HIGH_WORKERS + LOW_WORKERS;
 
     // --- THREAD POOLS (Based on previous calculation) ---
-    private static final ExecutorService highWorkers = Executors.newFixedThreadPool(6);
-    private static final ExecutorService lowWorkers  = Executors.newFixedThreadPool(1);
+    private static final ExecutorService highWorkers = Executors.newFixedThreadPool(HIGH_WORKERS);
+    private static final ExecutorService lowWorkers  = Executors.newFixedThreadPool(LOW_WORKERS);
 
-    private static final ExecutorService consumerRunnerPool = Executors.newFixedThreadPool(8);
+    private static final ExecutorService consumerRunnerPool = Executors.newFixedThreadPool(CONSUMER_POOL);
     private static final List<KafkaEmailConsumer> activeConsumers = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
 
-        // 1. Start HIGH Priority Consumers (4 Consumers)
-        for (int i = 0; i < 6; i++) {
+        configureWireMock();
+
+        // 1. Start HIGH Priority Consumers (6 Consumers)
+        for (int i = 0; i < HIGH_WORKERS; i++) {
             KafkaEmailConsumer consumer = new KafkaEmailConsumer(
                     HIGH_TOPIC, HIGH_GROUP, i, highWorkers,
                     HIGH_BATCH_LIMIT, HIGH_WAIT_MS // 5 emails, 75ms wait
@@ -50,8 +57,8 @@ public class Main {
             consumerRunnerPool.submit(consumer);
         }
 
-        // 2. Start LOW Priority Consumers (7 Consumers)
-        for (int i = 0; i < 1; i++) {
+        // 2. Start LOW Priority Consumers (1 Consumers)
+        for (int i = 0; i < LOW_WORKERS; i++) {
             KafkaEmailConsumer consumer = new KafkaEmailConsumer(
                     LOW_TOPIC, LOW_GROUP, i, lowWorkers,
                     LOW_BATCH_LIMIT, LOW_WAIT_MS // 30 emails, 200ms wait
@@ -59,6 +66,7 @@ public class Main {
             activeConsumers.add(consumer);
             consumerRunnerPool.submit(consumer);
         }
+
 
         // --- Graceful Shutdown ---
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -88,5 +96,30 @@ public class Main {
         }));
 
         Thread.currentThread().join();
+    }
+
+    // WireMock stubbing
+    private static void configureWireMock() {
+        try {
+            String jsonPayload = "{"
+                    + "\"request\": {\"method\": \"POST\", \"url\": \"/v1/send-email\"},"
+                    + "\"response\": {"
+                    + "  \"status\": 200,"
+                    + "  \"headers\": {\"Content-Type\": \"application/json\"},"
+                    + "  \"body\": \"{\\\"message\\\": \\\"Queued\\\", \\\"id\\\": \\\"fake-123\\\"}\""
+                    + "}}";
+
+            java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
+            java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create("http://localhost:8080/__admin/mappings"))
+                    .header("Content-Type", "application/json")
+                    .POST(java.net.http.HttpRequest.BodyPublishers.ofString(jsonPayload))
+                    .build();
+
+            client.send(request, java.net.http.HttpResponse.BodyHandlers.discarding());
+            logger.info("WireMock configured successfully.");
+        } catch (Exception e) {
+            logger.warn("Could not configure WireMock (is it running?): " + e.getMessage());
+        }
     }
 }

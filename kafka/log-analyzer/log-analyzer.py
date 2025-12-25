@@ -138,5 +138,5 @@ def analyze_logs_to_csv(input_file, output_file):
         print(f"Error: The file '{input_file}' was not found.")
 
 if __name__ == "__main__":
-    analyze_logs_to_csv('C:/Users/mete/Desktop/staj/test-case/test/javaConsumer/javaConsumer/logs/email-consumer.log',
+    analyze_logs_to_csv('C:/Users/mete/Desktop/staj/kafka/test-case/test/javaConsumer/javaConsumer/logs/email-consumer.log',
                         'log_report.csv')
