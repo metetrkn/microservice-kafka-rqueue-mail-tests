@@ -86,7 +86,9 @@ public class KafkaEmailConsumer implements Runnable {
                                 json.getString("to"),
                                 json.getString("subject"),
                                 json.getString("body"),
-                                createdAt // Pass it here
+                                createdAt,
+                                this.topic,
+                                this.consumerIndex
                         ));
                     } catch (JSONException e) {
                         logger.error("Skipping bad JSON");
@@ -100,14 +102,7 @@ public class KafkaEmailConsumer implements Runnable {
 
                 // Async Send (Waits for completion before next poll)
                 CompletableFuture.runAsync(() -> {
-                    long start = System.currentTimeMillis();
-
                     EmailSender.sendBatch(emailBatch);
-
-                    long duration = System.currentTimeMillis() - start;
-                    logger.info("Consumer {} sent {} emails in {}ms",
-                            consumerIndex, emailBatch.size(), duration);
-
                 }, emailExecutor).join();
 
                 consumer.commitSync();
