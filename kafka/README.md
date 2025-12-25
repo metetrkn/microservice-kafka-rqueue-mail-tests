@@ -170,11 +170,10 @@ TEST RESULTS/
 ---
 
 ## Prerequisites
-- **Java 8+** and **Maven** for building and running producer/consumer modules.
-- **Python 3** for log analysis.
+- **Java SDK 17** and **Maven** for building and running producer/consumer modules.
+- **Python 3.14** for log analysis.
 - **Kafka** cluster running and accessible.
-- **Email server** (SMTP) for email sending functionality.
-
+- **Email server** Wiremock Docker image wiremock/wiremock:latest
 ---
 
 ## Setup & Usage
@@ -234,9 +233,6 @@ Specify your license here.
 ---
 
 ## Authors
-- Add your name and contact info here.
+- Mete Turkan
 
 ---
-
-## Acknowledgements
-- Kafka, Java, Python, and any libraries used.
