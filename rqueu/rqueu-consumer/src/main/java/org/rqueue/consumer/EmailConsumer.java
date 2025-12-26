@@ -26,7 +26,7 @@ public class EmailConsumer {
             // Hand over to the sender service
             emailSender.sendEmail(email);
         } catch (Exception e) {
-            log.error("[VIP FAILED] Could not send email to {}. Rqueue will retry.", email.getTo(), e);
+            log.error("[Error VIP] Could not send email to {}. Rqueue will retry.", email.getTo(), e);
             // Re-throw exception so Rqueue knows to retry this message later
             throw e;
         }
@@ -41,7 +41,7 @@ public class EmailConsumer {
         try {
             emailSender.sendEmail(email);
         } catch (Exception e) {
-            log.error("[STD FAILED] Could not send email to {}. Rqueue will retry.", email.getTo(), e);
+            log.error("[Error STD] Could not send email to {}. Rqueue will retry.", email.getTo(), e);
             throw e;
         }
     }

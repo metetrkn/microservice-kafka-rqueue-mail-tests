@@ -67,13 +67,13 @@ public class EmailSender {
                         // ------------------------
 
                     } else {
-                        String errorMsg = String.format("Mail Provider failed. Status: %d | Body: %s", response.statusCode(), response.body());
+                        String errorMsg = String.format("Error, Mail Provider failed. Status: %d | Body: %s", response.statusCode(), response.body());
                         logger.error(errorMsg);
                         throw new RuntimeException(errorMsg);
                     }
                 })
                 .exceptionally(ex -> {
-                    throw new RuntimeException("Network error sending email: " + ex.getMessage(), ex);
+                    throw new RuntimeException("Error, Network error sending email: " + ex.getMessage(), ex);
                 })
                 .join();
     }
