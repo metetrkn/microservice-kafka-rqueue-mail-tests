@@ -13,11 +13,13 @@ import org.springframework.stereotype.Component;
 public class EmailConsumer {
 
     private final EmailSender emailSender;
+    private final String concurrencyHigh  = "5-10";
+    private final String concurrencyLow  = "1-2";
 
     /**
      * HIGH PRIORITY QUEUE
      */
-    @RqueueListener(value = "high-priority-mails", concurrency = "5-10")
+    @RqueueListener(value = "high-priority-mails", concurrency = concurrencyHigh)
     public void onHighPriorityMessage(EmailDTO email) {
         log.info("[VIP START] Processing email for: {}", email.getTo());
         try {
@@ -33,7 +35,7 @@ public class EmailConsumer {
     /**
      * LOW PRIORITY QUEUE
      */
-    @RqueueListener(value = "low-priority-mails", concurrency = "1-2")
+    @RqueueListener(value = "low-priority-mails", concurrency = concurrencyLow)
     public void onLowPriorityMessage(EmailDTO email) {
         log.info("[STD START] Processing email for: {}", email.getTo());
         try {
@@ -42,5 +44,14 @@ public class EmailConsumer {
             log.error("[STD FAILED] Could not send email to {}. Rqueue will retry.", email.getTo(), e);
             throw e;
         }
+    }
+
+    // Getters for concurrency
+    public String getConcurrencyHigh() {
+        return concurrencyHigh;
+    }
+
+    public String getConcurrencyLow() {
+        return concurrencyLow;
     }
 }

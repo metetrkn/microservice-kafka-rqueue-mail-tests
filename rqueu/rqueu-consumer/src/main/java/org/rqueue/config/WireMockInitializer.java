@@ -2,8 +2,11 @@ package org.rqueue.config;
 
 import com.github.sonus21.rqueue.listener.RqueueMessageListenerContainer; // <--- NEW IMPORT
 import lombok.RequiredArgsConstructor;
+import org.rqueue.consumer.EmailConsumer;
+import org.rqueue.mailSender.EmailSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +19,9 @@ import java.net.http.HttpResponse;
 @Configuration
 @RequiredArgsConstructor // <--- Generates constructor for 'rqueueContainer'
 public class WireMockInitializer {
+
+    @Autowired
+    public final EmailConsumer emailConsumer;
 
     private static final Logger logger = LoggerFactory.getLogger(WireMockInitializer.class);
     private static final String WIREMOCK_ADMIN_URL = "http://localhost:8080/__admin/mappings";
@@ -55,7 +61,8 @@ public class WireMockInitializer {
                     logger.info("✅ WireMock Stub Registered!");
 
                     // 2. THE FIX: Start Rqueue NOW (only after stub is ready)
-                    logger.info("🚀 Starting Rqueue Consumers...");
+                    logger.info("🚀 Starting HighConsumers. Concurrency range: {}", emailConsumer.getConcurrencyHigh());
+                    logger.info("🚀 Starting LowConsumers. Concurrency range: {}", emailConsumer.getConcurrencyLow());
                     rqueueContainer.start();
 
                 } else {
