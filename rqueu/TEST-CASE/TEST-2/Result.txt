@@ -1,0 +1,13 @@
+increase low mails concurrency while high are fixed, find out if high effect bad while low performs better
+
+scenerio-1								
+queu		Usage		Error		concurrency	avg_time	max_time	cpu     memory   performance_monitor
+high		100		0		5-10		1.09		1.77		10%	40%	 10-20
+low		1000		0		5-10		9.11		18.37		10%	40%	 10-20
+
+Observations:
+	- System was not overloaded.
+	- Increasing concurrency for low from 1-2 -> 5-10 inceased performance drastically while high did not affect badly.
+
+
+

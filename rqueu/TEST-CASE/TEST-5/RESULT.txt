@@ -1,0 +1,36 @@
+TOTAL EVAULATION OF TESTS FOR CONCURRENCY NUMBERS
+
+Test1-
+queu	Usage		Error		concurrency	avg_time	max_time	
+high	100		0		5-10		1.19		1.96		
+low	1000		0		1-2		51.90		103.73		
+
+Test2-
+queu	Usage		Error		concurrency	avg_time	max_time
+high	100		0		5-10		1.09		1.77
+low	1000		0		5-10		9.11		18.37
+
+Test3-
+queu	Usage		Error		concurrency	avg_time	max_time	
+high	100		0		10-20		0.45		0.60		
+low	1000		0		5-10		8.83		18.09		
+
+
+Test4-
+queu	Usage		Error		concurrency	avg_time	max_time	
+high	100		0		10-20		0.94		1.19		
+low	1000		0		10-20		4.08		7.96		
+
+
+Result:
+	- Our primary task to create high thoughput system for HIGH mails and
+	Test3 returns the best results for high mails and also not the most resource usage.
+	CSV files graph evulation also shows that there is drastic decrease in exectuion time 
+	from test2 to test3 but there is allmost no change from 3 to 4.
+
+BEST USE CASE is TEST-3!
+
+
+
+
+

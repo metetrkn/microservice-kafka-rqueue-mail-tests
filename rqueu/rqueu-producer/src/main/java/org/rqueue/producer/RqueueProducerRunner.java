@@ -39,7 +39,7 @@ public class RqueueProducerRunner implements CommandLineRunner {
 
         executor.submit(() -> {
             try {
-                sendOneByOne(HIGH_PRIORITY_QUEUE, 10, Subject.VIP.name());
+                sendOneByOne(HIGH_PRIORITY_QUEUE, 1000, Subject.VIP.name());
             } catch (Exception e) {
                 log.error("Error in High Priority", e);
             }
@@ -47,7 +47,7 @@ public class RqueueProducerRunner implements CommandLineRunner {
 
         executor.submit(() -> {
             try {
-                sendOneByOne(LOW_PRIORITY_QUEUE, 100, Subject.STANDARD.name());
+                sendOneByOne(LOW_PRIORITY_QUEUE, 10000, Subject.STANDARD.name());
             } catch (Exception e) {
                 log.error("Error in Low Priority", e);
             }
@@ -56,7 +56,7 @@ public class RqueueProducerRunner implements CommandLineRunner {
         executor.shutdown();
 
         // Wait for tasks to finish
-        if (executor.awaitTermination(7, TimeUnit.SECONDS)) {
+        if (executor.awaitTermination(7, TimeUnit.MINUTES)) {
             log.info("All messages sent successfully.");
         } else {
             log.error("Timed out waiting for messages to send.");

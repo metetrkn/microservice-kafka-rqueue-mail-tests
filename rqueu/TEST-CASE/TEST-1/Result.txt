@@ -1,0 +1,9 @@
+initial test - play with concurrency range and observe effects on system and execution times
+
+scenerio-1								
+queu		Usage		Error		concurrency	avg_time	max_time	cpu     memory   performance_monitor
+high		100		0		5-10		1.19		1.96		10%	40%	 10-20
+low		1000		0		1-2		51.90		103.73		10%	40%	 10-20
+
+Observations:
+	- System was not overloaded.

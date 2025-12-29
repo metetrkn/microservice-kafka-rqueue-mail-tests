@@ -1,0 +1,19 @@
+increase sent mail numbers (x10) to see effect per queu for best test case settings.(Test-3). <Stress test>
+
+scenerio-highTrafic								
+queu		Usage		Error		concurrency	avg_time	max_time	
+high		1000		0		10-20		3.85		7.50		
+low		10000		0		5-10		93.14		188.61	
+	
+scenerio-lowTrafic								
+queu		Usage		Error		concurrency	avg_time	max_time	
+high		100		0		10-20		0.45		0.60		
+low		1000		0		5-10		8.83		18.09		
+
+Observations:
+	- System forced a lot but still handled all mails without error, without extreme sprike on CPU usage.
+	- Even with high trafic, high mials handled quickly!
+
+To sumup, test case gives good results with low trafic (1100 mails) or hight trafic (11000 mails).
+
+
